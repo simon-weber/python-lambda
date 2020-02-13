@@ -443,12 +443,8 @@ def pip_install_to_target(path, requirements=None, local_package=None):
         packages.extend(pkgStr.decode('utf-8').splitlines())
     else:
         if os.path.exists(requirements):
-            print('Gathering requirement packages')
-            data = read(requirements)
-            packages.extend(data.splitlines())
-
-    if not packages:
-        print('No dependency packages installed!')
+            print('Installing requirement packages')
+            subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', requirements, '-t', path, '--ignore-installed'])
 
     if local_package is not None:
         if not isinstance(local_package, (list, tuple)):
